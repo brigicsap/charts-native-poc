@@ -1,0 +1,949 @@
+{
+	"units": {
+		"energy": "kWh"
+	},
+	"energyType": "energy-consumption",
+	"datapoints": [
+		{
+			"to": "2026-04-22T00:30",
+			"from": "2026-04-22T00:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.19438
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T01:00",
+			"from": "2026-04-22T00:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.21540600000000001
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T01:30",
+			"from": "2026-04-22T01:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.165808
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T02:00",
+			"from": "2026-04-22T01:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.15024
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T02:30",
+			"from": "2026-04-22T02:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.168732
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T03:00",
+			"from": "2026-04-22T02:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.17845199999999997
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T03:30",
+			"from": "2026-04-22T03:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.170766
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T04:00",
+			"from": "2026-04-22T03:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.155322
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T04:30",
+			"from": "2026-04-22T04:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.17346599999999998
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T05:00",
+			"from": "2026-04-22T04:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.14198400000000003
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T05:30",
+			"from": "2026-04-22T05:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0.16020800000000002
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T06:00",
+			"from": "2026-04-22T05:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.130032
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T06:30",
+			"from": "2026-04-22T06:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.17731200000000003
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T07:00",
+			"from": "2026-04-22T06:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.16552
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T07:30",
+			"from": "2026-04-22T07:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.023552
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.188416
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T08:00",
+			"from": "2026-04-22T07:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.039652
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.148695
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T08:30",
+			"from": "2026-04-22T08:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.06821500000000001
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.13643000000000002
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T09:00",
+			"from": "2026-04-22T08:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.137364
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.125917
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T09:30",
+			"from": "2026-04-22T09:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.18513
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.051425
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T10:00",
+			"from": "2026-04-22T09:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.235746
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.022452
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T10:30",
+			"from": "2026-04-22T10:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.247611
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.023582000000000002
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T11:00",
+			"from": "2026-04-22T10:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.204183
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.019446
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T11:30",
+			"from": "2026-04-22T11:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.189819
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.018078
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T12:00",
+			"from": "2026-04-22T11:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.194964
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.018568
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T12:30",
+			"from": "2026-04-22T12:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.231042
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.022004000000000003
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T13:00",
+			"from": "2026-04-22T12:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.22512600000000002
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.020466
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T13:30",
+			"from": "2026-04-22T13:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.20394
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.01854
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T14:00",
+			"from": "2026-04-22T13:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.238524
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.021684000000000002
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T14:30",
+			"from": "2026-04-22T14:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.203808
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.018528
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T15:00",
+			"from": "2026-04-22T14:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.17465699999999998
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.016634
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T15:30",
+			"from": "2026-04-22T15:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.212457
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.020234000000000002
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T16:00",
+			"from": "2026-04-22T15:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0.210357
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0.020034
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T16:30",
+			"from": "2026-04-22T16:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T17:00",
+			"from": "2026-04-22T16:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T17:30",
+			"from": "2026-04-22T17:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T18:00",
+			"from": "2026-04-22T17:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T18:30",
+			"from": "2026-04-22T18:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T19:00",
+			"from": "2026-04-22T18:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T19:30",
+			"from": "2026-04-22T19:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T20:00",
+			"from": "2026-04-22T19:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T20:30",
+			"from": "2026-04-22T20:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T21:00",
+			"from": "2026-04-22T20:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T21:30",
+			"from": "2026-04-22T21:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T22:00",
+			"from": "2026-04-22T21:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T22:30",
+			"from": "2026-04-22T22:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T23:00",
+			"from": "2026-04-22T22:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-22T23:30",
+			"from": "2026-04-22T23:00",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		},
+		{
+			"to": "2026-04-23T00:00",
+			"from": "2026-04-22T23:30",
+			"constituentDatapoints": [
+				{
+					"type": "solar-consumption",
+					"energy": 0
+				},
+				{
+					"type": "grid-consumption",
+					"energy": 0
+				},
+				{
+					"type": "battery-consumption",
+					"energy": 0
+				}
+			]
+		}
+	],
+	"pagination": {
+		"previous": [
+			{
+				"from": "2026-04-12T00:00",
+				"to": "2026-04-13T00:00"
+			},
+			{
+				"from": "2026-04-13T00:00",
+				"to": "2026-04-14T00:00"
+			},
+			{
+				"from": "2026-04-14T00:00",
+				"to": "2026-04-15T00:00"
+			},
+			{
+				"from": "2026-04-15T00:00",
+				"to": "2026-04-16T00:00"
+			},
+			{
+				"from": "2026-04-16T00:00",
+				"to": "2026-04-17T00:00"
+			},
+			{
+				"from": "2026-04-17T00:00",
+				"to": "2026-04-18T00:00"
+			},
+			{
+				"from": "2026-04-18T00:00",
+				"to": "2026-04-19T00:00"
+			},
+			{
+				"from": "2026-04-19T00:00",
+				"to": "2026-04-20T00:00"
+			},
+			{
+				"from": "2026-04-20T00:00",
+				"to": "2026-04-21T00:00"
+			},
+			{
+				"from": "2026-04-21T00:00",
+				"to": "2026-04-22T00:00"
+			}
+		],
+		"current": {
+			"from": "2026-04-22T00:00",
+			"to": "2026-04-23T00:00"
+		},
+		"next": [],
+		"resolutions": {
+			"day": null,
+			"week": {
+				"from": "2026-04-20",
+				"to": "2026-04-27"
+			},
+			"month": {
+				"from": "2026-04-01",
+				"to": "2026-05-01"
+			}
+		}
+	},
+	"summary": {
+		"energy": 6.484908,
+		"constituentSummaries": [
+			{
+				"type": "solar-consumption",
+				"energy": 3.226147
+			},
+			{
+				"type": "grid-consumption",
+				"energy": 1.8747639999999999
+			},
+			{
+				"type": "battery-consumption",
+				"energy": 1.3839970000000006
+			}
+		]
+	}
+}

@@ -1,0 +1,392 @@
+{
+	"units": {
+		"battery": "%"
+	},
+	"energyType": "battery-history",
+	"datapoints": [
+		{
+			"batteryPercentage": 82,
+			"timestamp": "2026-04-22T00:00"
+		},
+		{
+			"batteryPercentage": 80,
+			"timestamp": "2026-04-22T00:15"
+		},
+		{
+			"batteryPercentage": 78,
+			"timestamp": "2026-04-22T00:30"
+		},
+		{
+			"batteryPercentage": 76,
+			"timestamp": "2026-04-22T00:45"
+		},
+		{
+			"batteryPercentage": 73,
+			"timestamp": "2026-04-22T01:00"
+		},
+		{
+			"batteryPercentage": 71,
+			"timestamp": "2026-04-22T01:15"
+		},
+		{
+			"batteryPercentage": 68,
+			"timestamp": "2026-04-22T01:30"
+		},
+		{
+			"batteryPercentage": 66,
+			"timestamp": "2026-04-22T01:45"
+		},
+		{
+			"batteryPercentage": 63,
+			"timestamp": "2026-04-22T02:00"
+		},
+		{
+			"batteryPercentage": 61,
+			"timestamp": "2026-04-22T02:15"
+		},
+		{
+			"batteryPercentage": 58,
+			"timestamp": "2026-04-22T02:30"
+		},
+		{
+			"batteryPercentage": 56,
+			"timestamp": "2026-04-22T02:45"
+		},
+		{
+			"batteryPercentage": 54,
+			"timestamp": "2026-04-22T03:00"
+		},
+		{
+			"batteryPercentage": 52,
+			"timestamp": "2026-04-22T03:15"
+		},
+		{
+			"batteryPercentage": 50,
+			"timestamp": "2026-04-22T03:30"
+		},
+		{
+			"batteryPercentage": 48,
+			"timestamp": "2026-04-22T03:45"
+		},
+		{
+			"batteryPercentage": 46,
+			"timestamp": "2026-04-22T04:00"
+		},
+		{
+			"batteryPercentage": 44,
+			"timestamp": "2026-04-22T04:15"
+		},
+		{
+			"batteryPercentage": 42,
+			"timestamp": "2026-04-22T04:30"
+		},
+		{
+			"batteryPercentage": 40,
+			"timestamp": "2026-04-22T04:45"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T05:00"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T05:15"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T05:30"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T05:45"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T06:00"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T06:15"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T06:30"
+		},
+		{
+			"batteryPercentage": null,
+			"timestamp": "2026-04-22T06:45"
+		},
+		{
+			"batteryPercentage": 38,
+			"timestamp": "2026-04-22T07:00"
+		},
+		{
+			"batteryPercentage": 37,
+			"timestamp": "2026-04-22T07:15"
+		},
+		{
+			"batteryPercentage": 35,
+			"timestamp": "2026-04-22T07:30"
+		},
+		{
+			"batteryPercentage": 34,
+			"timestamp": "2026-04-22T07:45"
+		},
+		{
+			"batteryPercentage": 33,
+			"timestamp": "2026-04-22T08:00"
+		},
+		{
+			"batteryPercentage": 35,
+			"timestamp": "2026-04-22T08:15"
+		},
+		{
+			"batteryPercentage": 36,
+			"timestamp": "2026-04-22T08:30"
+		},
+		{
+			"batteryPercentage": 39,
+			"timestamp": "2026-04-22T08:45"
+		},
+		{
+			"batteryPercentage": 41,
+			"timestamp": "2026-04-22T09:00"
+		},
+		{
+			"batteryPercentage": 45,
+			"timestamp": "2026-04-22T09:15"
+		},
+		{
+			"batteryPercentage": 48,
+			"timestamp": "2026-04-22T09:30"
+		},
+		{
+			"batteryPercentage": 52,
+			"timestamp": "2026-04-22T09:45"
+		},
+		{
+			"batteryPercentage": 55,
+			"timestamp": "2026-04-22T10:00"
+		},
+		{
+			"batteryPercentage": 59,
+			"timestamp": "2026-04-22T10:15"
+		},
+		{
+			"batteryPercentage": 63,
+			"timestamp": "2026-04-22T10:30"
+		},
+		{
+			"batteryPercentage": 67,
+			"timestamp": "2026-04-22T10:45"
+		},
+		{
+			"batteryPercentage": 70,
+			"timestamp": "2026-04-22T11:00"
+		},
+		{
+			"batteryPercentage": 73,
+			"timestamp": "2026-04-22T11:15"
+		},
+		{
+			"batteryPercentage": 76,
+			"timestamp": "2026-04-22T11:30"
+		},
+		{
+			"batteryPercentage": 79,
+			"timestamp": "2026-04-22T11:45"
+		},
+		{
+			"batteryPercentage": 82,
+			"timestamp": "2026-04-22T12:00"
+		},
+		{
+			"batteryPercentage": 85,
+			"timestamp": "2026-04-22T12:15"
+		},
+		{
+			"batteryPercentage": 87,
+			"timestamp": "2026-04-22T12:30"
+		},
+		{
+			"batteryPercentage": 89,
+			"timestamp": "2026-04-22T12:45"
+		},
+		{
+			"batteryPercentage": 91,
+			"timestamp": "2026-04-22T13:00"
+		},
+		{
+			"batteryPercentage": 93,
+			"timestamp": "2026-04-22T13:15"
+		},
+		{
+			"batteryPercentage": 95,
+			"timestamp": "2026-04-22T13:30"
+		},
+		{
+			"batteryPercentage": 97,
+			"timestamp": "2026-04-22T13:45"
+		},
+		{
+			"batteryPercentage": 98,
+			"timestamp": "2026-04-22T14:00"
+		},
+		{
+			"batteryPercentage": 99,
+			"timestamp": "2026-04-22T14:15"
+		},
+		{
+			"batteryPercentage": 100,
+			"timestamp": "2026-04-22T14:30"
+		},
+		{
+			"batteryPercentage": 100,
+			"timestamp": "2026-04-22T14:45"
+		},
+		{
+			"batteryPercentage": 100,
+			"timestamp": "2026-04-22T15:00"
+		},
+		{
+			"batteryPercentage": 100,
+			"timestamp": "2026-04-22T15:15"
+		},
+		{
+			"batteryPercentage": 99,
+			"timestamp": "2026-04-22T15:30"
+		},
+		{
+			"batteryPercentage": 98,
+			"timestamp": "2026-04-22T15:45"
+		},
+		{
+			"batteryPercentage": 96,
+			"timestamp": "2026-04-22T16:00"
+		},
+		{
+			"batteryPercentage": 94,
+			"timestamp": "2026-04-22T16:15"
+		},
+		{
+			"batteryPercentage": 92,
+			"timestamp": "2026-04-22T16:30"
+		},
+		{
+			"batteryPercentage": 90,
+			"timestamp": "2026-04-22T16:45"
+		},
+		{
+			"batteryPercentage": 87,
+			"timestamp": "2026-04-22T17:00"
+		},
+		{
+			"batteryPercentage": 85,
+			"timestamp": "2026-04-22T17:15"
+		},
+		{
+			"batteryPercentage": 83,
+			"timestamp": "2026-04-22T17:30"
+		},
+		{
+			"batteryPercentage": 81,
+			"timestamp": "2026-04-22T17:45"
+		},
+		{
+			"batteryPercentage": 79,
+			"timestamp": "2026-04-22T18:00"
+		},
+		{
+			"batteryPercentage": 77,
+			"timestamp": "2026-04-22T18:15"
+		},
+		{
+			"batteryPercentage": 75,
+			"timestamp": "2026-04-22T18:30"
+		},
+		{
+			"batteryPercentage": 73,
+			"timestamp": "2026-04-22T18:45"
+		},
+		{
+			"batteryPercentage": 71,
+			"timestamp": "2026-04-22T19:00"
+		},
+		{
+			"batteryPercentage": 69,
+			"timestamp": "2026-04-22T19:15"
+		},
+		{
+			"batteryPercentage": 67,
+			"timestamp": "2026-04-22T19:30"
+		},
+		{
+			"batteryPercentage": 65,
+			"timestamp": "2026-04-22T19:45"
+		},
+		{
+			"batteryPercentage": 63,
+			"timestamp": "2026-04-22T20:00"
+		},
+		{
+			"batteryPercentage": 61,
+			"timestamp": "2026-04-22T20:15"
+		},
+		{
+			"batteryPercentage": 59,
+			"timestamp": "2026-04-22T20:30"
+		},
+		{
+			"batteryPercentage": 57,
+			"timestamp": "2026-04-22T20:45"
+		},
+		{
+			"batteryPercentage": 55,
+			"timestamp": "2026-04-22T21:00"
+		},
+		{
+			"batteryPercentage": 53,
+			"timestamp": "2026-04-22T21:15"
+		},
+		{
+			"batteryPercentage": 51,
+			"timestamp": "2026-04-22T21:30"
+		},
+		{
+			"batteryPercentage": 49,
+			"timestamp": "2026-04-22T21:45"
+		},
+		{
+			"batteryPercentage": 47,
+			"timestamp": "2026-04-22T22:00"
+		},
+		{
+			"batteryPercentage": 45,
+			"timestamp": "2026-04-22T22:15"
+		},
+		{
+			"batteryPercentage": 43,
+			"timestamp": "2026-04-22T22:30"
+		},
+		{
+			"batteryPercentage": 42,
+			"timestamp": "2026-04-22T22:45"
+		},
+		{
+			"batteryPercentage": 40,
+			"timestamp": "2026-04-22T23:00"
+		},
+		{
+			"batteryPercentage": 39,
+			"timestamp": "2026-04-22T23:15"
+		},
+		{
+			"batteryPercentage": 37,
+			"timestamp": "2026-04-22T23:30"
+		},
+		{
+			"batteryPercentage": 35,
+			"timestamp": "2026-04-22T23:45"
+		}
+	]
+}

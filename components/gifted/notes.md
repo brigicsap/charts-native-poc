@@ -1,0 +1,6 @@
+- [dependency]-[Installed `react-native-gifted-charts` + `expo-linear-gradient` to support Gifted Charts in Expo.]
+- [data]-[Reused existing mock data files from `app/mockData` for all Gifted chart variants.]
+- [home-usage]-[Implemented stacked bar chart using `stackData` to mirror Solar/Grid/Battery usage.]
+- [import-export]-[Implemented positive/negative bar chart using stacked values around zero to mirror Import/Export behavior.]
+- [battery-history]-[Implemented line chart with percentage y-axis and default average value in legend.]
+- [savings]-[Implemented dual-line area chart for Not Optimised vs Used Strategy savings with £ values in legend.]
