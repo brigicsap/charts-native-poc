@@ -38,6 +38,7 @@
 		"react-native-web": "~0.21.0",
 		"react-native-webview": "^13.16.1",
 		"react-native-worklets": "0.5.1",
+		"tslib": "^2.8.1",
 		"victory-native": "^41.20.2"
 	},
 	"devDependencies": {
