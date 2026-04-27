@@ -9,23 +9,9 @@ import { Area, CartesianChart, Line } from "victory-native";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/savingsMock.json";
+import { legendStyles, parseSavingsData } from "./utils";
 
-// convert the monetary units/nanos format to a plain GBP float
-function toGBP(s: { units: number; nanos: number }) {
-	return s.units + s.nanos / 1_000_000_000;
-}
-
-// parse the raw data into a more convenient format for charting
-const data = rawData.intervalSavings.map((d, i) => {
-	const date = new Date(d.start);
-	const label = `${date.getDate()}/${date.getMonth() + 1}`;
-	return {
-		index: i,
-		label,
-		notOptimised: Math.round(toGBP(d.notOptimisedStrategySavings) * 100) / 100,
-		used: Math.round(toGBP(d.usedStrategySavings) * 100) / 100,
-	};
-});
+const data = parseSavingsData(rawData);
 
 // extract the 2 datasets and map x to numeric indices for Victory
 const chartData = data.map((d) => ({
@@ -52,20 +38,23 @@ export default function SavingsChart({ theme }: { theme: ChartTheme }) {
 	return (
 		<View style={styles.chartWrapper}>
 			{/* static legend row with latest values */}
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Not Optimised £{lastNotOpt.toFixed(2)}
 					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.tertiary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.tertiary },
+						]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Used Strategy £{lastUsed.toFixed(2)}
 					</RNText>
 				</RNView>
@@ -140,26 +129,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 4,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

@@ -5,9 +5,10 @@ import {
 	useFont,
 	vec,
 } from "@shopify/react-native-skia";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
 	Dimensions,
+	Pressable,
 	Text as RNText,
 	View as RNView,
 	StyleSheet,
@@ -16,58 +17,43 @@ import { runOnJS, useAnimatedReaction } from "react-native-reanimated";
 import { CartesianChart, StackedBar, useChartPressState } from "victory-native";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
-import rawData from "../../app/mockData/homeUsageMockDay.json";
+import dayRawData from "../../app/mockData/homeUsageMockDay.json";
+import weekRawData from "../../app/mockData/homeUsageMockWeek.json";
+import {
+	computeTotals,
+	formatTime12h,
+	legendStyles,
+	parseHomeUsageData,
+	toggleStyles,
+} from "./utils";
 
-// parse the raw data into a more convenient format for charting
-const parsed = rawData.datapoints.map((dp) => {
-	const time = dp.from.slice(11, 16);
-	const map: Record<string, number | string> = { time };
-	for (const c of dp.constituentDatapoints) {
-		map[c.type] = c.energy;
-	}
-	return map;
-});
+function parseRawData(
+	raw: typeof dayRawData | typeof weekRawData,
+	isWeek: boolean,
+) {
+	const { labels, solar, grid, battery } = parseHomeUsageData(raw, isWeek);
 
-// extract the 3 datasets and map x to numeric indices for Victory
-const chartData = parsed.map((d, i) => ({
-	time: i,
-	solar: Number(d["solar-consumption"] ?? 0),
-	grid: Number(d["grid-consumption"] ?? 0),
-	battery: Number(d["battery-consumption"] ?? 0),
-}));
+	const chartData = labels.map((_, i) => ({
+		time: i,
+		solar: solar[i],
+		grid: grid[i],
+		battery: battery[i],
+	}));
 
-const timeLabels = parsed.map((d) => String(d.time));
-// we want 8 x-axis ticks (every 3 hours), but only 4 labels are rendered
-const xTickIndices = [
-	"00:00",
-	"03:00",
-	"06:00",
-	"09:00",
-	"12:00",
-	"15:00",
-	"18:00",
-	"21:00",
-]
-	.map((t) => timeLabels.indexOf(t))
-	.filter((i) => i >= 0);
+	const timeLabels = labels;
 
-// show total values in legend by default when not interacting
-const totals = {
-	solar: chartData.reduce((s, d) => s + d.solar, 0).toFixed(2),
-	grid: chartData.reduce((s, d) => s + d.grid, 0).toFixed(2),
-	battery: chartData.reduce((s, d) => s + d.battery, 0).toFixed(2),
-};
+	const xTickIndices = isWeek
+		? chartData.map((_, i) => i)
+		: ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00"]
+				.map((t) => timeLabels.indexOf(t))
+				.filter((i) => i >= 0);
 
-// format only the 4 major x-axis labels
-const xTickFormat = (idx: number) => {
-	const t = timeLabels[idx];
-	if (!t) return "";
-	if (t === "00:00") return "12am";
-	if (t === "06:00") return "6am";
-	if (t === "12:00") return "12pm";
-	if (t === "18:00") return "6pm";
-	return "";
-};
+	const totals = computeTotals({ solar, grid, battery });
+
+	const maxY = Math.max(...chartData.map((d) => d.solar + d.grid + d.battery));
+
+	return { chartData, timeLabels, xTickIndices, totals, maxY };
+}
 
 // chart dimensions
 const E_WIDTH = Dimensions.get("window").width - 32;
@@ -75,6 +61,27 @@ const E_HEIGHT = 320;
 
 export default function HomeUsageChart({ theme }: { theme: ChartTheme }) {
 	const font = useFont(require("../../assets/fonts/SpaceMono-Regular.ttf"), 11);
+	const [period, setPeriod] = useState<"day" | "week">("day");
+
+	const data = useMemo(
+		() =>
+			parseRawData(
+				period === "day" ? dayRawData : weekRawData,
+				period === "week",
+			),
+		[period],
+	);
+
+	const xTickFormat = useMemo(
+		() => (idx: number) => {
+			const t = data.timeLabels[idx];
+			if (!t) return "";
+			if (period === "week") return t;
+			return formatTime12h(t);
+		},
+		[data.timeLabels, period],
+	);
+
 	// chartPressState drives highlight + legend value updates while pressing
 	const { state, isActive } = useChartPressState({
 		x: 0,
@@ -99,10 +106,10 @@ export default function HomeUsageChart({ theme }: { theme: ChartTheme }) {
 				runOnJS(setTooltip)(null);
 				return;
 			}
-			const d = chartData[cur.idx];
+			const d = data.chartData[cur.idx];
 			if (d) {
 				runOnJS(setTooltip)({
-					time: timeLabels[cur.idx] ?? "",
+					time: data.timeLabels[cur.idx] ?? "",
 					solar: d.solar,
 					grid: d.grid,
 					battery: d.battery,
@@ -113,52 +120,100 @@ export default function HomeUsageChart({ theme }: { theme: ChartTheme }) {
 
 	return (
 		<View style={styles.chartWrapper}>
+			<RNView style={toggleStyles.toggleRow}>
+				<Pressable
+					style={[
+						toggleStyles.toggleBtn,
+						toggleStyles.toggleBtnLeft,
+						period === "day" && toggleStyles.toggleBtnActive,
+					]}
+					onPress={() => setPeriod("day")}
+				>
+					<RNText
+						style={[
+							toggleStyles.toggleText,
+							period === "day" && toggleStyles.toggleTextActive,
+						]}
+					>
+						Day
+					</RNText>
+				</Pressable>
+				<Pressable
+					style={[
+						toggleStyles.toggleBtn,
+						toggleStyles.toggleBtnRight,
+						period === "week" && toggleStyles.toggleBtnActive,
+					]}
+					onPress={() => setPeriod("week")}
+				>
+					<RNText
+						style={[
+							toggleStyles.toggleText,
+							period === "week" && toggleStyles.toggleTextActive,
+						]}
+					>
+						Week
+					</RNText>
+				</Pressable>
+			</RNView>
 			{/* static legend row; values switch between totals and selected point */}
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.secondary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.secondary },
+						]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Solar{" "}
 						{tooltip
 							? `${tooltip.solar.toFixed(2)} kWh`
-							: `${totals.solar} kWh`}
+							: `${data.totals.solar} kWh`}
 					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.tertiary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.tertiary },
+						]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Grid{" "}
-						{tooltip ? `${tooltip.grid.toFixed(2)} kWh` : `${totals.grid} kWh`}
+						{tooltip
+							? `${tooltip.grid.toFixed(2)} kWh`
+							: `${data.totals.grid} kWh`}
 					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Battery{" "}
 						{tooltip
 							? `${tooltip.battery.toFixed(2)} kWh`
-							: `${totals.battery} kWh`}
+							: `${data.totals.battery} kWh`}
 					</RNText>
 				</RNView>
 			</RNView>
 			{/* stacked bar chart with frame, gridlines, and custom x-axis ticks */}
 			<CartesianChart
-				data={chartData}
+				data={data.chartData}
 				xKey="time"
 				yKeys={["solar", "grid", "battery"]}
-				domain={{ y: [0, 0.3] }}
-				domainPadding={{ top: 20, left: 10, right: 10 }}
+				domain={{ y: [0, Math.max(data.maxY * 1.1, 0.3)] }}
+				domainPadding={{
+					top: 20,
+					left: period === "week" ? 30 : 10,
+					right: period === "week" ? 20 : 10,
+				}}
 				padding={{ left: 10, right: 10, top: 30, bottom: 5 }}
 				chartPressState={state}
 				gestureLongPressDelay={0}
 				xAxis={{
-					tickValues: xTickIndices,
+					tickValues: data.xTickIndices,
 					formatXLabel: (value) => xTickFormat(Number(value)),
 					labelColor: theme.referenceLine,
 					lineColor: "transparent",
@@ -182,7 +237,7 @@ export default function HomeUsageChart({ theme }: { theme: ChartTheme }) {
 				// draw outward tick marks (Victory doesn't expose short x-tick marks directly)
 				renderOutside={({ points, chartBounds }) => (
 					<>
-						{xTickIndices.map((idx) => {
+						{data.xTickIndices.map((idx) => {
 							const x = points.solar[idx]?.x;
 							if (x == null) return null;
 							return (
@@ -237,26 +292,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 4,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

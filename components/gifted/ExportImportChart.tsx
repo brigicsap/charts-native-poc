@@ -9,27 +9,15 @@ import { BarChart } from "react-native-gifted-charts";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/exportImportDay.json";
+import {
+	computeTotals,
+	formatTime12h,
+	legendStyles,
+	parseExportImportData,
+} from "./utils";
 
-// parse the raw data into a more convenient format for charting
-const parsed = rawData.datapoints.map((dp) => {
-	const time = dp.from.slice(11, 16);
-	const map: Record<string, number | string> = { time };
-	for (const c of dp.constituentDatapoints) {
-		map[c.type] = c.energy;
-	}
-	return map;
-});
-
-// extract the x-axis labels and the 2 datasets
-const times = parsed.map((d) => String(d.time));
-const importData = parsed.map((d) => Number(d["grid-import"] ?? 0));
-const exportData = parsed.map((d) => Number(d["grid-export"] ?? 0));
-
-// show totals in legend by default
-const totals = {
-	import: importData.reduce((s, v) => s + v, 0).toFixed(2),
-	export: exportData.reduce((s, v) => s + v, 0).toFixed(2),
-};
+const { times, importData, exportData } = parseExportImportData(rawData);
+const totals = computeTotals({ import: importData, export: exportData });
 
 const E_WIDTH = Dimensions.get("window").width - 32;
 const E_HEIGHT = 320;
@@ -42,16 +30,7 @@ export default function GiftedExportImportChart({
 	const stackData = useMemo(
 		() =>
 			times.map((time, i) => ({
-				label:
-					time === "00:00"
-						? "12am"
-						: time === "06:00"
-							? "6am"
-							: time === "12:00"
-								? "12pm"
-								: time === "18:00"
-									? "6pm"
-									: "",
+				label: formatTime12h(time),
 				stacks: [
 					{ value: importData[i] ?? 0, color: theme.primary },
 					{ value: exportData[i] ?? 0, color: theme.secondary },
@@ -71,18 +50,25 @@ export default function GiftedExportImportChart({
 
 	return (
 		<View style={styles.chartWrapper}>
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>Import £{totals.import}</RNText>
+					<RNText style={legendStyles.legendText}>
+						Import £{totals.import}
+					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.secondary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.secondary },
+						]}
 					/>
-					<RNText style={styles.legendText}>Export £{totals.export}</RNText>
+					<RNText style={legendStyles.legendText}>
+						Export £{totals.export}
+					</RNText>
 				</RNView>
 			</RNView>
 			<BarChart
@@ -116,26 +102,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 6,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

@@ -15,45 +15,32 @@ import { CartesianChart, StackedBar, useChartPressState } from "victory-native";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/exportImportDay.json";
+import {
+	computeTotals,
+	formatTime12h,
+	legendStyles,
+	parseExportImportData,
+} from "./utils";
 
-// parse the raw data into a more convenient format for charting
-const parsed = rawData.datapoints.map((dp) => {
-	const time = dp.from.slice(11, 16);
-	const map: Record<string, number | string> = { time };
-	for (const c of dp.constituentDatapoints) {
-		map[c.type] = c.energy;
-	}
-	return map;
-});
+const { times, importData, exportData } = parseExportImportData(rawData);
 
-// extract the 2 datasets and map x to numeric indices for Victory
-const chartData = parsed.map((d, i) => ({
+// map to Victory-friendly numeric-index structure
+const chartData = times.map((_, i) => ({
 	time: i,
-	import: Number(d["grid-import"] ?? 0),
-	export: Number(d["grid-export"] ?? 0),
+	import: importData[i],
+	export: exportData[i],
 }));
 
-const timeLabels = parsed.map((d) => String(d.time));
-// only show the 4 major x-axis positions
+const timeLabels = times;
 const xTickIndices = ["00:00", "06:00", "12:00", "18:00"]
 	.map((t) => timeLabels.indexOf(t))
 	.filter((i) => i >= 0);
 
-// show total values in legend by default when not interacting
-const totals = {
-	import: chartData.reduce((s, d) => s + d.import, 0).toFixed(2),
-	export: chartData.reduce((s, d) => s + d.export, 0).toFixed(2),
-};
+const totals = computeTotals({ import: importData, export: exportData });
 
-// format x-axis labels as 12h clock text
 const xTickFormat = (idx: number) => {
 	const t = timeLabels[idx];
-	if (!t) return "";
-	if (t === "00:00") return "12am";
-	if (t === "06:00") return "6am";
-	if (t === "12:00") return "12pm";
-	if (t === "18:00") return "6pm";
-	return "";
+	return t ? formatTime12h(t) : "";
 };
 
 // chart dimensions
@@ -99,21 +86,24 @@ export default function ExportImportChart({ theme }: { theme: ChartTheme }) {
 	return (
 		<View style={styles.chartWrapper}>
 			{/* static legend row; values switch between totals and selected point */}
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Import{" "}
 						{tooltip ? `£${tooltip.import.toFixed(2)}` : `£${totals.import}`}
 					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.secondary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.secondary },
+						]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Export{" "}
 						{tooltip ? `£${tooltip.export.toFixed(2)}` : `£${totals.export}`}
 					</RNText>
@@ -193,26 +183,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 4,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

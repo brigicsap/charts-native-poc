@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
 	Dimensions,
+	Pressable,
 	Text as RNText,
 	View as RNView,
 	StyleSheet,
@@ -8,88 +9,130 @@ import {
 import { BarChart } from "react-native-gifted-charts";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
-import rawData from "../../app/mockData/homeUsageMockDay.json";
+import dayRawData from "../../app/mockData/homeUsageMockDay.json";
+import weekRawData from "../../app/mockData/homeUsageMockWeek.json";
+import {
+	computeTotals,
+	formatTime12h,
+	legendStyles,
+	parseHomeUsageData,
+	toggleStyles,
+} from "./utils";
 
-// parse the raw data into a more convenient format for charting
-const parsed = rawData.datapoints.map((dp) => {
-	const time = dp.from.slice(11, 16);
-	const map: Record<string, number | string> = { time };
-	for (const c of dp.constituentDatapoints) {
-		map[c.type] = c.energy;
-	}
-	return map;
-});
-
-// extract the x-axis labels and the 3 datasets
-const times = parsed.map((d) => String(d.time));
-const solarData = parsed.map((d) => Number(d["solar-consumption"] ?? 0));
-const gridData = parsed.map((d) => Number(d["grid-consumption"] ?? 0));
-const batteryData = parsed.map((d) => Number(d["battery-consumption"] ?? 0));
-
-// show totals in legend by default
-const totals = {
-	solar: solarData.reduce((s, v) => s + v, 0).toFixed(2),
-	grid: gridData.reduce((s, v) => s + v, 0).toFixed(2),
-	battery: batteryData.reduce((s, v) => s + v, 0).toFixed(2),
-};
+function parseRawData(
+	raw: typeof dayRawData | typeof weekRawData,
+	isWeek: boolean,
+) {
+	const { labels, solar, grid, battery } = parseHomeUsageData(raw, isWeek);
+	const totals = computeTotals({ solar, grid, battery });
+	return { labels, solar, grid, battery, totals };
+}
 
 const E_WIDTH = Dimensions.get("window").width - 32;
 const E_HEIGHT = 320;
 
 export default function GiftedHomeUsageChart({ theme }: { theme: ChartTheme }) {
+	const [period, setPeriod] = useState<"day" | "week">("day");
+
+	const data = useMemo(
+		() =>
+			parseRawData(
+				period === "day" ? dayRawData : weekRawData,
+				period === "week",
+			),
+		[period],
+	);
+
 	const stackData = useMemo(
 		() =>
-			times.map((time, i) => ({
-				label:
-					time === "00:00"
-						? "12am"
-						: time === "06:00"
-							? "6am"
-							: time === "12:00"
-								? "12pm"
-								: time === "18:00"
-									? "6pm"
-									: "",
+			data.labels.map((label, i) => ({
+				label: period === "week" ? label : formatTime12h(label),
 				stacks: [
-					{ value: solarData[i] ?? 0, color: theme.secondary },
-					{ value: gridData[i] ?? 0, color: theme.tertiary },
-					{ value: batteryData[i] ?? 0, color: theme.primary },
+					{ value: data.solar[i] ?? 0, color: theme.secondary },
+					{ value: data.grid[i] ?? 0, color: theme.tertiary },
+					{ value: data.battery[i] ?? 0, color: theme.primary },
 				],
 			})),
-		[theme],
+		[theme, data, period],
 	);
 
 	const maxValue = useMemo(
 		() =>
 			Math.max(
-				...solarData.map(
-					(v, i) => v + (gridData[i] ?? 0) + (batteryData[i] ?? 0),
+				...data.solar.map(
+					(v, i) => v + (data.grid[i] ?? 0) + (data.battery[i] ?? 0),
 				),
 			),
-		[],
+		[data],
 	);
 
 	return (
 		<View style={styles.chartWrapper}>
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={toggleStyles.toggleRow}>
+				<Pressable
+					style={[
+						toggleStyles.toggleBtn,
+						toggleStyles.toggleBtnLeft,
+						period === "day" && toggleStyles.toggleBtnActive,
+					]}
+					onPress={() => setPeriod("day")}
+				>
+					<RNText
+						style={[
+							toggleStyles.toggleText,
+							period === "day" && toggleStyles.toggleTextActive,
+						]}
+					>
+						Day
+					</RNText>
+				</Pressable>
+				<Pressable
+					style={[
+						toggleStyles.toggleBtn,
+						toggleStyles.toggleBtnRight,
+						period === "week" && toggleStyles.toggleBtnActive,
+					]}
+					onPress={() => setPeriod("week")}
+				>
+					<RNText
+						style={[
+							toggleStyles.toggleText,
+							period === "week" && toggleStyles.toggleTextActive,
+						]}
+					>
+						Week
+					</RNText>
+				</Pressable>
+			</RNView>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.secondary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.secondary },
+						]}
 					/>
-					<RNText style={styles.legendText}>Solar {totals.solar} kWh</RNText>
+					<RNText style={legendStyles.legendText}>
+						Solar {data.totals.solar} kWh
+					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.tertiary }]}
+						style={[
+							legendStyles.legendDot,
+							{ backgroundColor: theme.tertiary },
+						]}
 					/>
-					<RNText style={styles.legendText}>Grid {totals.grid} kWh</RNText>
+					<RNText style={legendStyles.legendText}>
+						Grid {data.totals.grid} kWh
+					</RNText>
 				</RNView>
-				<RNView style={styles.legendItem}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>
-						Battery {totals.battery} kWh
+					<RNText style={legendStyles.legendText}>
+						Battery {data.totals.battery} kWh
 					</RNText>
 				</RNView>
 			</RNView>
@@ -97,8 +140,8 @@ export default function GiftedHomeUsageChart({ theme }: { theme: ChartTheme }) {
 				stackData={stackData}
 				height={230}
 				width={E_WIDTH - 30}
-				barWidth={6}
-				spacing={8}
+				barWidth={period === "week" ? 30 : 6}
+				spacing={period === "week" ? 16 : 8}
 				initialSpacing={8}
 				endSpacing={8}
 				maxValue={maxValue <= 0 ? 1 : maxValue}
@@ -125,26 +168,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 6,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

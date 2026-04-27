@@ -12,6 +12,7 @@ import { useEffect, useRef } from "react";
 import { Dimensions, View } from "react-native";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/batteryHistoryMockDay.json";
+import { formatTime12h, parseBatteryHistoryData } from "./utils";
 
 echarts.use([
 	TitleComponent,
@@ -23,33 +24,7 @@ echarts.use([
 	LineChart,
 ]);
 
-// build a lookup map from time string to battery percentage
-const dataMap = new Map(
-	rawData.datapoints.map((dp) => [
-		dp.timestamp.slice(11, 16),
-		dp.batteryPercentage,
-	]),
-);
-
-// generate all 96 15-minute slots for a full day, filling gaps with null
-const allSlots = Array.from({ length: 96 }, (_, i) => {
-	const h = String(Math.floor(i / 4)).padStart(2, "0");
-	const m = String((i % 4) * 15).padStart(2, "0");
-	return `${h}:${m}`;
-});
-
-// null where data is missing - connectNulls: false will break the line there
-const batteryData = allSlots.map((time) => {
-	const val = dataMap.get(time);
-	return val ?? null;
-});
-
-// compute average of non-null values to show in legend by default
-const validBattery = batteryData.filter((v): v is number => v != null);
-const batteryAvg =
-	validBattery.length > 0
-		? (validBattery.reduce((s, v) => s + v, 0) / validBattery.length).toFixed(2)
-		: "—";
+const { allSlots, batteryData, batteryAvg } = parseBatteryHistoryData(rawData);
 
 // default legend formatter when not hovering - show series name + average
 const defaultLegendFormatter = (name: string) =>
@@ -154,14 +129,7 @@ export default function BatteryHistoryChart({
 							value === "18:00"
 						);
 					},
-					formatter: (v: string) => {
-						const h = parseInt(v.slice(0, 2));
-						if (h === 0 && v === "00:00") return "12am";
-						if (h === 6 && v === "06:00") return "6am";
-						if (h === 12 && v === "12:00") return "12pm";
-						if (h === 18 && v === "18:00") return "6pm";
-						return "";
-					},
+					formatter: (v: string) => formatTime12h(v),
 				},
 			},
 			// y-axis: 0-100% range in 25% intervals

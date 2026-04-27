@@ -11,6 +11,7 @@ import { useEffect, useRef } from "react";
 import { Dimensions, View } from "react-native";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/savingsMock.json";
+import { parseSavingsData } from "./utils";
 
 echarts.use([
 	TitleComponent,
@@ -21,21 +22,7 @@ echarts.use([
 	LineChart,
 ]);
 
-// convert the monetary units/nanos format to a plain GBP float
-function toGBP(s: { units: number; nanos: number }) {
-	return s.units + s.nanos / 1_000_000_000;
-}
-
-// parse the raw data into a more convenient format for charting
-const data = rawData.intervalSavings.map((d) => {
-	const date = new Date(d.start);
-	const label = `${date.getDate()}/${date.getMonth() + 1}`;
-	return {
-		label,
-		notOptimised: Math.round(toGBP(d.notOptimisedStrategySavings) * 100) / 100,
-		used: Math.round(toGBP(d.usedStrategySavings) * 100) / 100,
-	};
-});
+const data = parseSavingsData(rawData);
 
 // extract the x-axis labels and the 2 datasets
 const labels = data.map((d) => d.label);

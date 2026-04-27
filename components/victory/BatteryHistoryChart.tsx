@@ -17,58 +17,28 @@ import { CartesianChart, Line, useChartPressState } from "victory-native";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/batteryHistoryMockDay.json";
+import { formatTime12h, legendStyles, parseBatteryHistoryData } from "./utils";
 
-// generate all 96 15-minute slots for a full day
-const allSlots = Array.from({ length: 96 }, (_, i) => {
-	const h = String(Math.floor(i / 4)).padStart(2, "0");
-	const m = String((i % 4) * 15).padStart(2, "0");
-	return `${h}:${m}`;
-});
-
-// build a lookup map from time string to battery percentage
-const dataMap = new Map(
-	rawData.datapoints.map((dp) => [
-		dp.timestamp.slice(11, 16),
-		dp.batteryPercentage,
-	]),
-);
+const { allSlots, batteryData, batteryAvg } = parseBatteryHistoryData(rawData);
 
 // null regions are tracked so we can split the line and shade missing data
 const nullIndices: number[] = [];
-const chartData = allSlots.map((time, i) => {
-	const val = dataMap.get(time);
+const chartData = allSlots.map((_time, i) => {
+	const val = batteryData[i];
 	if (val == null) nullIndices.push(i);
 	return { time: i, battery: val ?? 0 };
 });
 const NULL_START = nullIndices[0] ?? -1;
 const NULL_END = nullIndices[nullIndices.length - 1] ?? -1;
 
-// compute average of non-null values to show in legend by default
-const validBatteryValues = chartData.filter(
-	(_d, i) => !nullIndices.includes(i),
-);
-const batteryAvg =
-	validBatteryValues.length > 0
-		? (
-				validBatteryValues.reduce((s, d) => s + d.battery, 0) /
-				validBatteryValues.length
-			).toFixed(2)
-		: "—";
-
 // only show the 4 major x-axis positions
 const xTickIndices = ["00:00", "06:00", "12:00", "18:00"]
 	.map((t) => allSlots.indexOf(t))
 	.filter((i) => i >= 0);
 
-// format x-axis labels as 12h clock text
 const xTickFormat = (idx: number) => {
 	const t = allSlots[idx];
-	if (!t) return "";
-	if (t === "00:00") return "12am";
-	if (t === "06:00") return "6am";
-	if (t === "12:00") return "12pm";
-	if (t === "18:00") return "6pm";
-	return "";
+	return t ? formatTime12h(t) : "";
 };
 
 // chart dimensions
@@ -112,12 +82,12 @@ export default function BatteryHistoryChart({ theme }: { theme: ChartTheme }) {
 	return (
 		<View style={styles.chartWrapper}>
 			{/* static legend row; value switches between average and selected point */}
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>
+					<RNText style={legendStyles.legendText}>
 						Battery{" "}
 						{tooltip ? `${tooltip.battery.toFixed(2)}%` : `${batteryAvg}%`}
 					</RNText>
@@ -238,26 +208,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 4,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });

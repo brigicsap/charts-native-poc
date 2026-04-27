@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { Dimensions, View } from "react-native";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/exportImportDay.json";
+import { computeTotals, formatTime12h, parseExportImportData } from "./utils";
 
 echarts.use([
 	TitleComponent,
@@ -21,27 +22,9 @@ echarts.use([
 	BarChart,
 ]);
 
-// parse the raw data into a more convenient format for charting
-const parsed = rawData.datapoints.map((dp) => {
-	const time = dp.from.slice(11, 16);
-	const map: Record<string, number | string> = { time };
-	for (const c of dp.constituentDatapoints) {
-		map[c.type] = c.energy;
-	}
-	return map;
-});
+const { times, importData, exportData } = parseExportImportData(rawData);
 
-// extract the x-axis labels and the 2 datasets
-const times = parsed.map((d) => d.time);
-const importData = parsed.map((d) => d["grid-import"] ?? 0);
-const exportData = parsed.map((d) => d["grid-export"] ?? 0);
-
-// we want to show the total for each series in the legend by default, so we prepare those values here
-const totals = {
-	Import: importData.reduce<number>((s, v) => s + Number(v), 0).toFixed(2),
-	Export: exportData.reduce<number>((s, v) => s + Number(v), 0).toFixed(2),
-};
-// default legend formatter when not pressing - show series name + total
+const totals = computeTotals({ Import: importData, Export: exportData });
 const defaultLegendFormatter = (name: string) =>
 	totals[name as keyof typeof totals]
 		? `${name}  £${totals[name as keyof typeof totals]}`
@@ -153,14 +136,7 @@ export default function ExportImportChart({
 				data: times,
 				axisLabel: {
 					interval: 0,
-					formatter: (v: string) => {
-						const h = parseInt(v.slice(0, 2));
-						if (h === 0 && v === "00:00") return "12am";
-						if (h === 6 && v === "06:00") return "6am";
-						if (h === 12 && v === "12:00") return "12pm";
-						if (h === 18 && v === "18:00") return "6pm";
-						return "";
-					},
+					formatter: (v: string) => formatTime12h(v),
 				},
 				axisLine: { onZero: true },
 				axisTick: {

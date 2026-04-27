@@ -9,31 +9,9 @@ import { LineChart } from "react-native-gifted-charts";
 import { View } from "@/components/Themed";
 import type { ChartTheme } from "../../app/chartTheme";
 import rawData from "../../app/mockData/batteryHistoryMockDay.json";
+import { formatTime12h, legendStyles, parseBatteryHistoryData } from "./utils";
 
-// generate all 96 15-minute slots for a full day
-const allSlots = Array.from({ length: 96 }, (_, i) => {
-	const h = String(Math.floor(i / 4)).padStart(2, "0");
-	const m = String((i % 4) * 15).padStart(2, "0");
-	return `${h}:${m}`;
-});
-
-// build a lookup map from time string to battery percentage
-const dataMap = new Map(
-	rawData.datapoints.map((dp) => [
-		dp.timestamp.slice(11, 16),
-		dp.batteryPercentage,
-	]),
-);
-
-// null where data is missing
-const batteryData = allSlots.map((time) => dataMap.get(time) ?? null);
-
-// compute average of non-null values to show in legend by default
-const validBattery = batteryData.filter((v): v is number => v != null);
-const batteryAvg =
-	validBattery.length > 0
-		? (validBattery.reduce((s, v) => s + v, 0) / validBattery.length).toFixed(2)
-		: "—";
+const { allSlots, batteryData, batteryAvg } = parseBatteryHistoryData(rawData);
 
 const E_WIDTH = Dimensions.get("window").width - 32;
 const E_HEIGHT = 320;
@@ -47,16 +25,7 @@ export default function GiftedBatteryHistoryChart({
 		() =>
 			batteryData.map((v, i) => ({
 				value: v ?? 0,
-				label:
-					allSlots[i] === "00:00"
-						? "12am"
-						: allSlots[i] === "06:00"
-							? "6am"
-							: allSlots[i] === "12:00"
-								? "12pm"
-								: allSlots[i] === "18:00"
-									? "6pm"
-									: "",
+				label: formatTime12h(allSlots[i]),
 				hideDataPoint: true,
 				color: v == null ? theme.referenceLineLight : theme.primary,
 			})),
@@ -65,12 +34,12 @@ export default function GiftedBatteryHistoryChart({
 
 	return (
 		<View style={styles.chartWrapper}>
-			<RNView style={styles.legendRow}>
-				<RNView style={styles.legendItem}>
+			<RNView style={legendStyles.legendRow}>
+				<RNView style={legendStyles.legendItem}>
 					<RNView
-						style={[styles.legendDot, { backgroundColor: theme.primary }]}
+						style={[legendStyles.legendDot, { backgroundColor: theme.primary }]}
 					/>
-					<RNText style={styles.legendText}>Battery {batteryAvg}%</RNText>
+					<RNText style={legendStyles.legendText}>Battery {batteryAvg}%</RNText>
 				</RNView>
 			</RNView>
 			<LineChart
@@ -104,26 +73,5 @@ const styles = StyleSheet.create({
 	chartWrapper: {
 		width: E_WIDTH,
 		height: E_HEIGHT,
-	},
-	legendRow: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 12,
-		paddingHorizontal: 8,
-		paddingBottom: 6,
-	},
-	legendItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	legendDot: {
-		width: 8,
-		height: 8,
-		borderRadius: 4,
-	},
-	legendText: {
-		fontSize: 11,
-		color: "#333",
 	},
 });
